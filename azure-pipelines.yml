@@ -16,5 +16,5 @@ steps:
 
     $packages = "--add Microsoft.VisualStudio.Component.VC.v141.x86.x64"
 
-    $exitCode = Start-Process -FilePath "$installer" -ArgumentList "modify --installPath `"$path`" $packages --passive --norestart" -Wait -PassThru
+    $exitCode = Start-Process -FilePath "$installer" -ArgumentList "modify --installPath `"$path`" $packages --quiet --norestart" -Wait -PassThru
     echo "EXIT: $($exitCode.ExitCode)"
