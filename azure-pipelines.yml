@@ -10,11 +10,5 @@ pool:
   name: Hosted Windows 2019 with VS2019
 
 steps:
- - pwsh: |
-    $installer = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
-    $path = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
-
-    $packages = "--add Microsoft.VisualStudio.Component.VC.v141.x86.x64"
-
-    $exitCode = Start-Process -FilePath "$installer" -ArgumentList "modify --installPath `"$path`" $packages --quiet --norestart" -Wait -PassThru
-    echo "EXIT: $($exitCode.ExitCode)"
+ - script: |
+     "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --quiet --norestart
