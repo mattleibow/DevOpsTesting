@@ -17,7 +17,7 @@ steps:
 #  - script: |
 #      vs_enterprise.exe modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --quiet --norestart --includeRecommended
 
- - pwsh: choco install visualstudio2019enterprise --package-parameters "--add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --installPath 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise'"
+ - pwsh: choco install visualstudio2019enterprise --package-parameters '--add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"'
 
  - script: |
      dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC"
