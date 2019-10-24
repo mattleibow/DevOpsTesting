@@ -10,7 +10,9 @@ pool:
   name: Hosted Windows 2019 with VS2019
 
 steps:
+ - pwsh: |
+     Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_enterprise.exe -OutFile vs_enterprise.exe
  - script: |
-     "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" --version --quiet
+     vs_enterprise.exe --version --quiet
  - script: |
-     "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --quiet --norestart --includeRecommended
+     vs_enterprise.exe modify --installPath "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --quiet --norestart --includeRecommended
