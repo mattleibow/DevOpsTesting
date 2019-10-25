@@ -21,7 +21,7 @@ steps:
      Start-Process -FilePath $installer -ArgumentList "--update --wait --quiet" -Wait -PassThru
      
      Write-Host "Installing components..."
-     Start-Process -FilePath $installer -ArgumentList "modify --installPath $path --config .vsconfig --quiet --norestart --includeRecommended --wait" -Wait -PassThru
+     Start-Process -FilePath $installer -ArgumentList "modify --installPath $path --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --quiet --norestart --includeRecommended --wait" -Wait -PassThru
      
      Write-Host "Installation complete."
 
