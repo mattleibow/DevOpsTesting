@@ -5,9 +5,9 @@ $installer = Join-Path $env:TEMP vs_enterprise.exe
 Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_enterprise.exe' -OutFile $installer
 
 Write-Host "Updating the installer..."
-Start-Process -FilePath $installer -ArgumentList "--update", "--wait", "--quiet" -Wait -PassThru
+cmd /c "`"$installer`" --update --wait --quiet"
 
 Write-Host "Installing components..."
-Start-Process -FilePath $installer -ArgumentList "modify", "--installPath", $path, "--add", "Microsoft.VisualStudio.Component.VC.v141.x86.x64", "--quiet", "--norestart", "--includeRecommended", "--wait" -Wait -PassThru
+cmd /c "`"$installer`" modify --installPath `"$path`" --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --quiet --norestart --includeRecommended --wait"
 
 Write-Host "Installation complete."
