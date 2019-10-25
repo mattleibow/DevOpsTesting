@@ -8,6 +8,6 @@ Write-Host "Updating the installer..."
 cmd /c "`"$installer`" --update --wait --quiet"
 
 Write-Host "Installing components..."
-cmd /c "`"$installer`" modify --installPath `"$path`" --add Microsoft.VisualStudio.Component.VC.v141.x86.x64 --quiet --norestart --includeRecommended --wait"
+cmd /c "`"$installer`" modify --installPath `"$path`" --config .vsconfig --quiet --norestart --includeRecommended --wait"
 
 Write-Host "Installation complete."
