@@ -11,7 +11,10 @@ pool:
   
 steps:
   - bash: ls -l /Applications
-  - bash: cat $(Agent.HomeDirectory)/scripts/select-xamarin-sdk.sh 
+  - bash: ls -l /Library/Frameworks/Mono.framework/Versions
+  - bash: ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
+  - bash: ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
+  - bash: ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
 
 # steps:
 #  - pwsh: .\install-vs.ps1
