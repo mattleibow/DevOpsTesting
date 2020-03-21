@@ -7,9 +7,13 @@ trigger:
 - master
 
 pool:
-  name: Hosted Windows 2019 with VS2019
-
+  name: Hosted MacOS
+  
 steps:
- - pwsh: .\install-vs.ps1
- - script: |
-     dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC"
+  - bash: ls -l /Applications
+  - bash: cat $(Agent.HomeDirectory)/scripts/select-xamarin-sdk.sh 
+
+# steps:
+#  - pwsh: .\install-vs.ps1
+#  - script: |
+#      dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC"
