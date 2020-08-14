@@ -7,14 +7,14 @@ trigger:
 - master
 
 pool:
-  name: Hosted MacOS
+  vmImage: macos-latest
   
 steps:
-  - bash: ls -l /Applications
-  - bash: ls -l /Library/Frameworks/Mono.framework/Versions
-  - bash: ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
-  - bash: ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
-  - bash: ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
+  - bash: |
+      ls -l /Library/Frameworks/Mono.framework/Versions
+      ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
+      ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
+      ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
 
 # steps:
 #  - pwsh: .\install-vs.ps1
