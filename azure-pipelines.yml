@@ -7,12 +7,11 @@ trigger:
 - master
 
 pool: 
-  vmImage: ubuntu-latest
+  vmImage: macos-latest
   
 steps:
   - bash: |
-      echo $CHROMEWEBDRIVER
-      ls -l $CHROMEWEBDRIVER
+      set
 
 # pool:
 #   vmImage: macos-latest
