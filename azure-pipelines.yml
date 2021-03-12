@@ -6,15 +6,23 @@
 trigger:
 - master
 
-pool:
-  vmImage: macos-latest
+pool: 
+  vmImage: ubuntu-latest
   
 steps:
   - bash: |
-      ls -l /Library/Frameworks/Mono.framework/Versions
-      ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
-      ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
-      ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
+      echo $CHROMEWEBDRIVER
+      ls -l $CHROMEWEBDRIVER
+
+# pool:
+#   vmImage: macos-latest
+  
+# steps:
+#   - bash: |
+#       ls -l /Library/Frameworks/Mono.framework/Versions
+#       ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
+#       ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
+#       ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
 
 # steps:
 #  - pwsh: .\install-vs.ps1
