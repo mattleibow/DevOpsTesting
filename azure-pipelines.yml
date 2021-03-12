@@ -12,6 +12,8 @@ pool:
 steps:
   - bash: |
       set
+      ls -l /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk
+      ls -l /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
 
 # pool:
 #   vmImage: macos-latest
