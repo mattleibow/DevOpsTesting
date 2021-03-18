@@ -39,7 +39,7 @@ steps:
       # solution from https://stackoverflow.com/questions/9322540/how-to-change-the-android-emulator-ram-size-from-the-command-line
       sed -i 's/^\(vm.heapSize=\).*$/\1256/' ~/.android/avd/xamarin_android_emulator.avd/config.ini
       $ANDROID_HOME/emulator/emulator -accel-check
-      nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -wipe-data -no-window -skin 1080x1920 -no-snapshot -no-audio -no-boot-anim -accel on > /dev/null 2>&1 &
+      nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -wipe-data -no-window -skin 1080x1920 -no-snapshot -no-audio -no-boot-anim -accel on 
       $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
       $ANDROID_HOME/platform-tools/adb devices
       $ANDROID_HOME/platform-tools/adb shell settings put global window_animation_scale 0 &
