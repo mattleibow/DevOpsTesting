@@ -1,63 +1,109 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+variables:
+  DEVICE_VIDEO_DIR: /data/local/tmp/
+
+parameters:
+  - name: AndroidAPIs
+    type: object
+    default:
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
 
 trigger:
 - master
 
-pool: 
-  vmImage: macos-latest
-  
-steps:
-#   - bash: |
-#       sh -c "echo \"y\" | $ANDROID_HOME/tools/bin/sdkmanager \"emulator\" \"system-images;android-30;google_apis_playstore;x86\""
-#   - bash: |
-#       $ANDROID_HOME/tools/bin/avdmanager delete avd -n DEVICE_TESTS_EMULATOR
-#       $ANDROID_HOME/tools/bin/avdmanager create avd -n DEVICE_TESTS_EMULATOR -k "system-images;android-30;google_apis_playstore;x86" --device "Nexus 5X" --force
-#       $ANDROID_HOME/emulator/emulator -accel-check
-#   - bash: |
-#       $ANDROID_HOME/emulator/emulator -avd DEVICE_TESTS_EMULATOR -no-window -no-boot-anim -accel on
-#       # nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -wipe-data -no-window -skin 1080x1920 -no-snapshot -no-audio -no-boot-anim -accel on > /dev/null 2>&1 &
-#       $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
-#       $ANDROID_HOME/platform-tools/adb devices
+pool:
+  vmImage: 'macos-latest'
 
-  - bash: |
-      echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-30;google_apis;x86'
-      # -d 17 for Pixel
-      # to find out other devices run "avdmanager list device"
-      # set sdcard standard size explicitely to avoid empty external storage on API 21-22
-      echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k 'system-images;android-30;google_apis;x86' --sdcard 512M -d 17 --force
-      $ANDROID_HOME/emulator/emulator -list-avds
-      echo "Starting emulator"
-      # increase memory size to 2048M to avoid error "System UI is not responding"
-      # in the regex \1 means "hw.ramSize=", so we replace number that is placed after "hw.ramSize=" to 2048M.
-      # More details https://stackoverflow.com/a/4609965/3914914
-      sed -i 's/^\(hw.ramSize=\).*$/\12048/' ~/.android/avd/xamarin_android_emulator.avd/config.ini
-      # solution from https://stackoverflow.com/a/16402304 to fix error "System UI is not responding"
-      sed -i 's/^\(hw.mainKeys=\).*$/\1yes/' ~/.android/avd/xamarin_android_emulator.avd/config.ini
-      # solution from https://stackoverflow.com/questions/9322540/how-to-change-the-android-emulator-ram-size-from-the-command-line
-      sed -i 's/^\(vm.heapSize=\).*$/\1256/' ~/.android/avd/xamarin_android_emulator.avd/config.ini
-      $ANDROID_HOME/emulator/emulator -accel-check
-      nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -wipe-data -no-window -skin 1080x1920 -no-snapshot -no-audio -no-boot-anim -accel on 
-      $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
-      $ANDROID_HOME/platform-tools/adb devices
-      $ANDROID_HOME/platform-tools/adb shell settings put global window_animation_scale 0 &
-      $ANDROID_HOME/platform-tools/adb shell settings put global transition_animation_scale 0 &
-      $ANDROID_HOME/platform-tools/adb shell settings put global animator_duration_scale 0 &
-      echo "Emulator started"
+jobs:
+  - ${{ each value in parameters.AndroidAPIs }}:
+      - job:
+        timeoutInMinutes: 40
+        displayName: API ${{ value }}
+        steps:
+        - bash: |
+            echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-${{ value }};google_apis;x86'
+            # -d 17 for Pixel
+            # to find out other devices run "avdmanager list device"
+            # set sdcard standard size explicitely to avoid empty external storage on API 21-22
+            echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n xamarin_android_emulator -k 'system-images;android-${{ value }};google_apis;x86' --sdcard 512M -d 17 --force
 
-# pool:
-#   vmImage: macos-latest
-  
-# steps:
-#   - bash: |
-#       ls -l /Library/Frameworks/Mono.framework/Versions
-#       ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
-#       ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
-#       ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
+            $ANDROID_HOME/emulator/emulator -list-avds
 
-# steps:
-#  - pwsh: .\install-vs.ps1
-#  - script: |
-#      dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC"
+            echo "Starting emulator"
+            # increase memory size to 2048M to avoid error "System UI is not responding"
+            # in the regex \1 means "hw.ramSize=", so we replace number that is placed after "hw.ramSize=" to 2048M.
+            # More details https://stackoverflow.com/a/4609965/3914914
+            sed -i 's/^\(hw.ramSize=\).*$/\12048/' ~/.android/avd/xamarin_android_emulator.avd/config.ini
+            # solution from https://stackoverflow.com/a/16402304 to fix error "System UI is not responding"
+            sed -i 's/^\(hw.mainKeys=\).*$/\1yes/' ~/.android/avd/xamarin_android_emulator.avd/config.ini
+            # solution from https://stackoverflow.com/questions/9322540/how-to-change-the-android-emulator-ram-size-from-the-command-line
+            sed -i 's/^\(vm.heapSize=\).*$/\1256/' ~/.android/avd/xamarin_android_emulator.avd/config.ini
+
+            $ANDROID_HOME/emulator/emulator -accel-check
+
+            nohup $ANDROID_HOME/emulator/emulator -avd xamarin_android_emulator -wipe-data -no-window -skin 1080x1920 -no-snapshot -no-audio -no-boot-anim -accel on > /dev/null 2>&1 &
+            $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
+
+            $ANDROID_HOME/platform-tools/adb devices
+
+            $ANDROID_HOME/platform-tools/adb shell settings put global window_animation_scale 0 &
+            $ANDROID_HOME/platform-tools/adb shell settings put global transition_animation_scale 0 &
+            $ANDROID_HOME/platform-tools/adb shell settings put global animator_duration_scale 0 &
+
+            echo "Emulator started"
+          displayName: 'Run Android Emulator'
+
+        - bash: |
+            $ANDROID_HOME/platform-tools/adb uninstall com.example.crosswordToLearn
+            $ANDROID_HOME/platform-tools/adb logcat -c
+            $ANDROID_HOME/platform-tools/adb logcat > $(Build.ArtifactStagingDirectory)/device-${{ value }}.log &
+            echo $! > logcat.pid
+            echo "Logcat Started with Process ID: $(cat logcat.pid)"
+            $ANDROID_HOME/platform-tools/adb shell '''
+              for i in $(seq 1 1 20)
+              do
+                screenrecord --bugreport --verbose --time-limit=180 $(DEVICE_VIDEO_DIR)/test"${i}".mp4
+              done
+            ''' > $(Build.ArtifactStagingDirectory)/video-${{ value }}.log &
+            echo $! > video.pid
+            echo "Video Recorder Started with Process ID: $(cat video.pid)"
+          displayName: 'Start Video Record and Logcat'
+
+        - bash: |
+            ./gradlew connectedDebugAndroidTest -Porchestrator=true --info
+            ./gradlew --stop
+          displayName: 'Run Instrumented Tests'
+
+        - task: PublishTestResults@2
+          displayName: 'Test Results'
+          inputs:
+            testResultsFiles: '**/outputs/androidTest-results/**/TEST*.xml'
+            failTaskOnFailedTests: true
+            testRunTitle: 'API ${{ value }}'
+          condition: succeededOrFailed()
+
+        - bash: |
+            kill -9 $(cat video.pid) || true
+            sleep 5
+            $ANDROID_HOME/platform-tools/adb pull $(DEVICE_VIDEO_DIR) $(Build.ArtifactStagingDirectory)/API_${{ value }} || true
+            kill -9 $(cat logcat.pid) || true
+            adb kill-server
+          condition: or(succeeded(), failed())
+          displayName: 'Copy Videos and Clean Up'
+
+        - task: PublishBuildArtifacts@1
+          condition: or(succeeded(), failed())
+          displayName: 'Publish Tests Archive'
+          inputs:
+            pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            artifactName: '$(Build.BuildId).TestsArchive'
+            publishLocation: 'Container'
+
