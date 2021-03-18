@@ -53,35 +53,6 @@ jobs:
           displayName: 'Run Android Emulator'
 
         - bash: |
-            $ANDROID_HOME/platform-tools/adb uninstall com.example.crosswordToLearn
-            $ANDROID_HOME/platform-tools/adb logcat -c
-            $ANDROID_HOME/platform-tools/adb logcat > $(Build.ArtifactStagingDirectory)/device-${{ value }}.log &
-            echo $! > logcat.pid
-            echo "Logcat Started with Process ID: $(cat logcat.pid)"
-            $ANDROID_HOME/platform-tools/adb shell '''
-              for i in $(seq 1 1 20)
-              do
-                screenrecord --bugreport --verbose --time-limit=180 $(DEVICE_VIDEO_DIR)/test"${i}".mp4
-              done
-            ''' > $(Build.ArtifactStagingDirectory)/video-${{ value }}.log &
-            echo $! > video.pid
-            echo "Video Recorder Started with Process ID: $(cat video.pid)"
-          displayName: 'Start Video Record and Logcat'
-
-        - bash: |
-            ./gradlew connectedDebugAndroidTest -Porchestrator=true --info
-            ./gradlew --stop
-          displayName: 'Run Instrumented Tests'
-
-        - task: PublishTestResults@2
-          displayName: 'Test Results'
-          inputs:
-            testResultsFiles: '**/outputs/androidTest-results/**/TEST*.xml'
-            failTaskOnFailedTests: true
-            testRunTitle: 'API ${{ value }}'
-          condition: succeededOrFailed()
-
-        - bash: |
             kill -9 $(cat video.pid) || true
             sleep 5
             $ANDROID_HOME/platform-tools/adb pull $(DEVICE_VIDEO_DIR) $(Build.ArtifactStagingDirectory)/API_${{ value }} || true
@@ -89,12 +60,3 @@ jobs:
             adb kill-server
           condition: or(succeeded(), failed())
           displayName: 'Copy Videos and Clean Up'
-
-        - task: PublishBuildArtifacts@1
-          condition: or(succeeded(), failed())
-          displayName: 'Publish Tests Archive'
-          inputs:
-            pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            artifactName: '$(Build.BuildId).TestsArchive'
-            publishLocation: 'Container'
-
