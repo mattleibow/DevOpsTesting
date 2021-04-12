@@ -1,7 +1,7 @@
 xcodebuild \
     -project MyTestFramework/MyTestFramework.xcodeproj \
     -scheme MyTestFramework \
-    -configuration Debug \
+    -configuration Release \
     -arch arm64 \
     -sdk macosx \
     -derivedDataPath $1/obj \
