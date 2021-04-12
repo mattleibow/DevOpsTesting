@@ -3,5 +3,5 @@ pool:
 
 steps:
   - bash: |
-      build.sh $Build_ArtifactStagingDirectory
+      bash build.sh $Build_ArtifactStagingDirectory
   - task: PublishBuildArtifacts@1
