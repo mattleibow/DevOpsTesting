@@ -2,11 +2,7 @@ pool:
   vmImage: 'macos-latest'
 
 trigger:
-- master
+  - master
 
 steps:
-  - bash: ls -l /Applications
-  - bash: ls -l /Library/Frameworks/Mono.framework/Versions
-  - bash: ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
-  - bash: ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
-  - bash: ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
+  - bash: msbuild /r TestApp/TestApp.sln
