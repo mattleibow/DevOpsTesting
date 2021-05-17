@@ -1,7 +1,12 @@
 pool:
   vmImage: 'macos-latest'
 
+trigger:
+- master
+
 steps:
-  - bash: |
-      bash build.sh $BUILD_ARTIFACTSTAGINGDIRECTORY
-  - task: PublishBuildArtifacts@1
+  - bash: ls -l /Applications
+  - bash: ls -l /Library/Frameworks/Mono.framework/Versions
+  - bash: ls -l /Library/Frameworks/Xamarin.iOS.framework/Versions
+  - bash: ls -l /Library/Frameworks/Xamarin.Android.framework/Versions
+  - bash: ls -l /Library/Frameworks/Xamarin.Mac.framework/Versions
