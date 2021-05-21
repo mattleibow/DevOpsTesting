@@ -1,8 +1,9 @@
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-latest'
 
 trigger:
   - master
 
 steps:
+  - script: set
   - script: dotnet --list-sdks
