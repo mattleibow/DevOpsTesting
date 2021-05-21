@@ -5,4 +5,4 @@ trigger:
   - master
 
 steps:
-  - pwsh: echo $env:DOTNET_ROOT
+  - script: set
