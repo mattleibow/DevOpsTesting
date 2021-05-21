@@ -5,4 +5,4 @@ trigger:
   - master
 
 steps:
-  - bash: msbuild /r TestApp/TestApp.sln /p:Platform=iPhoneSimulator
+  - script: echo $DOTNET_ROOT
