@@ -1,9 +1,14 @@
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-2019'
 
 trigger:
   - master
 
 steps:
-  - script: set
-  - script: dotnet --list-sdks
+  - pwsh: |
+      dotnet tool update -g dotnet-vs
+      vs install preview preview --quiet
+  - pwsh: |
+      vs where preview --prop=InstallationPath)\MSBuild\Current\Bin
+  - pwsh: |
+      vs where -all
