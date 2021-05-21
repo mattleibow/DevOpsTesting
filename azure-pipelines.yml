@@ -1,8 +1,8 @@
 pool:
-  vmImage: 'macos-latest'
+  vmImage: 'windows-2019'
 
 trigger:
   - master
 
 steps:
-  - script: echo $DOTNET_ROOT
+  - pwsh: echo $env:DOTNET_ROOT
