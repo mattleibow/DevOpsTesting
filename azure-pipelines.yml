@@ -5,11 +5,10 @@ trigger:
   - master
 
 steps:
-  - script: |
-      dotnet tool update -g dotnet-vs
-      vs install preview --quiet +core
-    timeoutInMinutes: 0
   - pwsh: |
-      vs where preview --prop=InstallationPath)\MSBuild\Current\Bin
+      dotnet tool update -g dotnet-vs
+  - pwsh: |
+      Invoke-WebRequest -UseBasicParsing -Uri "https://aka.ms/vs/16/pre/vs_community.exe" -OutFile vs_community.exe
+      ./vs_community.exe --passive --norestart --wait --add Microsoft.VisualStudio.Component.VC.CoreIde | Out-Null
   - pwsh: |
       vs where -all
