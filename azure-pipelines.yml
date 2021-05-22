@@ -7,7 +7,8 @@ trigger:
 steps:
   - pwsh: |
       dotnet tool update -g dotnet-vs
-      vs install preview --passive +core
+      vs install preview --quiet +core
+    timeoutInMinutes: 0
   - pwsh: |
       vs where preview --prop=InstallationPath)\MSBuild\Current\Bin
   - pwsh: |
