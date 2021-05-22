@@ -5,7 +5,7 @@ trigger:
   - master
 
 steps:
-  - pwsh: |
+  - script: |
       dotnet tool update -g dotnet-vs
       vs install preview --quiet +core
     timeoutInMinutes: 0
