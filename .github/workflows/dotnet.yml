@@ -4,7 +4,7 @@
 name: build
 on: 
   push:
-    branches: [ main, dev, 'feature/*', 'rel/*' ]
+    branches: [ master, dev, 'feature/*', 'rel/*' ]
   pull_request:
     types: [opened, synchronize, reopened]
 
