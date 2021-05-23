@@ -12,7 +12,7 @@ jobs:
       - name: 🔽 dotnet-vs
         run: dotnet tool update -g dotnet-vs
       - name: 🔽 vs preview
-        run: vs install preview --sku enterprise --quiet +Microsoft.VisualStudio.Component.ManagedDesktop.Core +Microsoft.NetCore.Component.DevelopmentTools
+        run: vs install preview enterprise --quiet +Microsoft.VisualStudio.Component.ManagedDesktop.Core +Microsoft.NetCore.Component.DevelopmentTools
       - name: ≥ msbuild
         run: echo "$(vs where preview --prop=InstallationPath)\MSBuild\Current\Bin" >> $env:GITHUB_PATH
       - name: 🔍 msbuild
