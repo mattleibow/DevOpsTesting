@@ -2,7 +2,8 @@
 name: preview
 on:
   workflow_dispatch:
-
+  push:
+    
 jobs:
   preview:
     runs-on: windows-latest
