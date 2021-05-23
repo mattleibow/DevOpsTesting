@@ -8,7 +8,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: 🤘 checkout
-              uses: actions/checkout@v2
+        uses: actions/checkout@v2
       - name: 🔽 dotnet-vs
         run: dotnet tool update -g dotnet-vs
       - name: 🔽 vs preview
