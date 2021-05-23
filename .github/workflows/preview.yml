@@ -1,0 +1,19 @@
+# installs vs preview
+name: preview
+on:
+  workflow_dispatch:
+
+jobs:
+  preview:
+    runs-on: windows-latest
+    steps:
+      - name: 🤘 checkout
+              uses: actions/checkout@v2
+      - name: 🔽 dotnet-vs
+        run: dotnet tool update -g dotnet-vs
+      - name: 🔽 vs preview
+        run: vs install preview --quiet +Microsoft.VisualStudio.Component.ManagedDesktop.Core +Microsoft.NetCore.Component.DevelopmentTools
+      - name: ≥ msbuild
+        run: echo "$(vs where preview --prop=InstallationPath)\MSBuild\Current\Bin" >> $env:GITHUB_PATH
+      - name: 🔍 msbuild
+        run: msbuild --version
