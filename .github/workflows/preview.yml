@@ -9,6 +9,7 @@ jobs:
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v2
+      - run: choco install dotnetfx
       - name: 🔽 dotnet-vs
         run: dotnet tool update -g dotnet-vs
       - name: 🔽 vs preview
