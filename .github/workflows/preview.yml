@@ -9,9 +9,7 @@ jobs:
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v2
-      - run: |
-          rm $env:TEMP\vs.mcj872576055 -recurse
-          rm $env:TEMP\VSLogs -recurse
+      - run: rm "C:\Program Files (x86)\Microsoft Visual Studio\Installer" -recurse
       - name: 🔽 dotnet-vs
         run: dotnet tool update -g dotnet-vs
       - name: 🔽 vs preview
