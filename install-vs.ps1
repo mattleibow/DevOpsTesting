@@ -1,14 +1,40 @@
-$path = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
-$config = Join-Path $pwd ".vsconfig"
-Write-Host "Found Visual Studio at: $path"
+Param(
+    [string] $Version = "16/pre"
+)
 
-$installer = Join-Path $env:TEMP vs_enterprise.exe
-Invoke-WebRequest -Uri 'https://aka.ms/vs/16/pre/vs_enterprise.exe' -OutFile $installer
+$ErrorActionPreference = 'Stop'
 
-Write-Host "Updating the installer..."
-cmd /c "`"$installer`" --update --wait --quiet"
+Write-Host "Downloading Visual Studio ($Version)..."
+Invoke-WebRequest -UseBasicParsing `
+    -Uri "https://aka.ms/vs/$Version/vs_community.exe" `
+    -OutFile vs_community.exe
 
-Write-Host "Installing components..."
-cmd /c "`"$installer`" modify --installPath `"$path`" --config $config --quiet --norestart --includeRecommended --wait"
+Write-Host "Updating the Visual Studio Installer..."
+./vs_community.exe --update --quiet --norestart --wait | Out-Null
 
-Write-Host "Installation complete."
+Write-Host "Installing Visual Studio..."
+./vs_community.exe --quiet --norestart --wait `
+  --add Microsoft.VisualStudio.Workload.NetCrossPlat `
+  --add Microsoft.VisualStudio.Workload.NetCoreTools `
+  --add Microsoft.VisualStudio.Workload.ManagedDesktop `
+  --add Microsoft.VisualStudio.Workload.Universal `
+  | Out-Null
+
+$vsLogs = 'output\vs-logs'
+New-Item -ItemType Directory -Force -Path "$vsLogs" | Out-Null
+Copy-Item -Path "$env:TEMP\dd_*" -Destination "$vsLogs" -Recurse
+Copy-Item -Path "$env:TEMP\dd_*\*" -Destination "$vsLogs" -Recurse
+
+Remove-Item vs_community.exe
+
+$vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+
+Write-Host "Setting Environment Variables..."
+$installationPath = & $vswhere -latest -prerelease -property installationPath
+Write-Host "##vso[task.prependpath]$installationPath\MSBuild\Current\Bin"
+Write-Host "##vso[task.setvariable variable=VS_INSTALL]$installationPath"
+
+Write-Host "Installed Visual Studio Versions:"
+& $vswhere -all -prerelease -property installationPath
+
+exit $LASTEXITCODE
