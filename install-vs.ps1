@@ -4,13 +4,18 @@ Param(
 
 $ErrorActionPreference = 'Stop'
 
+Write-Host "Downloading Visual Studio Installer..."
+Invoke-WebRequest -UseBasicParsing `
+    -Uri "https://aka.ms/vs/install/latest/vs_setup.exe" `
+    -OutFile vs_setup.exe
+
 Write-Host "Downloading Visual Studio ($Version)..."
 Invoke-WebRequest -UseBasicParsing `
     -Uri "https://aka.ms/vs/$Version/vs_community.exe" `
     -OutFile vs_community.exe
 
 Write-Host "Updating the Visual Studio Installer..."
-./vs_community.exe --update --quiet --norestart --wait | Out-Null
+./vs_setup.exe --update --quiet --wait | Out-Null
 
 Write-Host "Installing Visual Studio..."
 ./vs_community.exe --quiet --norestart --wait `
