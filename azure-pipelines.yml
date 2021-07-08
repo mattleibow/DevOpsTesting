@@ -5,7 +5,7 @@ trigger:
   - master
 
 steps:
-  - pwsh: .\scripts\install-vs.ps1 -Version '16/pre'
+  - pwsh: .\install-vs.ps1 -Version '16/pre'
   - task: PublishBuildArtifacts@1
     inputs:
       artifactName: output
