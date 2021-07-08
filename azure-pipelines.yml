@@ -5,11 +5,8 @@ trigger:
   - master
 
 steps:
-  - pwsh: |
-      dotnet tool update -g dotnet-vs
-  - pwsh: |
-      Invoke-WebRequest -UseBasicParsing -Uri "https://aka.ms/vs/16/pre/vs_community.exe" -OutFile vs_community.exe
-  - pwsh: |
-      ./vs_community.exe --passive --norestart --wait --add Microsoft.VisualStudio.Component.VC.CoreIde | Out-Null
-  - pwsh: |
-      vs where -all
+  - pwsh: .\scripts\install-vs.ps1 -Version '16/pre'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: output
+      pathToPublish: 'output'
