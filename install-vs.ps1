@@ -3,7 +3,7 @@ $config = Join-Path $pwd ".vsconfig"
 Write-Host "Found Visual Studio at: $path"
 
 $installer = Join-Path $env:TEMP vs_enterprise.exe
-Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_enterprise.exe' -OutFile $installer
+Invoke-WebRequest -Uri 'https://aka.ms/vs/16/pre/vs_enterprise.exe' -OutFile $installer
 
 Write-Host "Updating the installer..."
 cmd /c "`"$installer`" --update --wait --quiet"
