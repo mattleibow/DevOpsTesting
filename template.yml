@@ -4,4 +4,4 @@ parameters:
 steps:
   - ${{ each dep in parameters.items }}:
     - pwsh: |
-        echo ${{ convertToJson(dep) }}
+        echo '${{ convertToJson(dep) }}'
