@@ -6,8 +6,8 @@ steps:
     - pwsh: |
         $json = '${{ convertToJson(dep) }}' | ConvertFrom-Json -AsHashtable
         if ($json.Keys) {
-          foreach ($item in $json) {
-            echo "Pair: $item.Name == $item.Value"
+          foreach ($key in $json.Keys) {
+            echo "Pair: $key == $json[$key]"
           }
         } else {
           echo "Single: $json"
