@@ -1,0 +1,7 @@
+parameters:
+  items: []
+
+steps:
+  - ${{ each dep in parameters.items }}:
+    - pwsh: |
+        echo ${{ dep }}

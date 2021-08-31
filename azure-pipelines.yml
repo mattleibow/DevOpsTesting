@@ -5,8 +5,8 @@ trigger:
   - master
 
 steps:
-  - pwsh: .\install-vs.ps1 -Version '16/pre'
-  - task: PublishBuildArtifacts@1
-    inputs:
-      artifactName: output
-      pathToPublish: 'output'
+  - template: template.yml
+    parameters:
+      items:
+        - first
+        - second: third
