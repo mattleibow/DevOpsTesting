@@ -7,7 +7,8 @@ steps:
         $json = '${{ convertToJson(dep) }}' | ConvertFrom-Json -AsHashtable
         if ($json.Keys) {
           foreach ($key in $json.Keys) {
-            echo "Pair: $key == $json[$key]"
+            $value = $json[$key]
+            echo "Pair: $key == $value"
           }
         } else {
           echo "Single: $json"
