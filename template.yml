@@ -4,5 +4,12 @@ parameters:
 steps:
   - ${{ each dep in parameters.items }}:
     - pwsh: |
-        $json = '${{ convertToJson(dep) }}' | ConvertFrom-Json
-        $json
+        $json = '${{ convertToJson(dep) }}' | ConvertFrom-Json -AsHashtable
+        if ($json.Keys) {
+          foreach ($item in $json) {
+            echo "Pair: $item.Name == $item.Value"
+          }
+        } else {
+          echo "Single: $json"
+        }
+        
