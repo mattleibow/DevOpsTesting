@@ -6,5 +6,5 @@ trigger:
 
 steps:
   - pwsh: Invoke-WebRequest -Uri "https://dot.net/v1/dotnet-install.sh" -OutFile dotnet-install.sh
-  - bash: sh dotnet-install.sh --version "6.0.200" --install-dir "/Users/runner/hostedtoolcache/dotnet" --verbose
+  - bash: sh dotnet-install.sh --version "6.0.200" --install-dir "/Users/runner/hostedtoolcache/dotnet" --azure-feed "https://dotnetbuilds.blob.core.windows.net/public" --verbose
   - pwsh: dotnet --info
