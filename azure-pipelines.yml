@@ -11,5 +11,5 @@ steps:
   #     version: 6.0.200
   #     performMultiLevelLookup: true
   - pwsh: Invoke-WebRequest -Uri "https://dot.net/v1/dotnet-install.sh" -OutFile dotnet-install.sh
-  - bash: sh dotnet-install.sh --version "6.0.200-preview.22063.5" --install-dir "/Users/runner/hostedtoolcache/dotnet" --verbose
+  - bash: sh dotnet-install.sh --version "6.0.200" --install-dir "/Users/runner/hostedtoolcache/dotnet" --verbose
   - pwsh: dotnet --info
