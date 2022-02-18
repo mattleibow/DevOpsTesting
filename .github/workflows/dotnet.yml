@@ -14,7 +14,7 @@ jobs:
       - name: Install Visual Studio Preview
         run: |
           dotnet tool update -g dotnet-vs
-          vs install Enterprise --quiet -pre +mobile
+          vs install Community --quiet --norestart --includeRecommended -pre +mobile
 
       - name: tests
         run: dir "C:\Program Files\Microsoft Visual Studio\2022\Preview\Msbuild\Current\Bin\"
