@@ -14,7 +14,7 @@ jobs:
       - name: Install Visual Studio Preview
         run: |
           dotnet tool update -g dotnet-vs
-          vs install buildtools -pre +mobile
+          vs install buildtools --quiet -pre +mobile
       - name: versions
         run: dotnet --info
       - name: workloads
