@@ -21,5 +21,11 @@ jobs:
         run: dotnet workload install maui
       - name: new
         run: dotnet new maui -o myApp
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-prerelease: true
+
       - name: build
-        run: dotnet build myApp
+        run: msbuild myApp
