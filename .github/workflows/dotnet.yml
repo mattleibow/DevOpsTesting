@@ -16,12 +16,10 @@ jobs:
         with:
           dotnet-version: '6.0.200-preview.22055.15'
       - name: versions
-        run: |
-          dotnet --version
-          dotnet --list-sdks
+        run: dotnet --info
+      - name: workloads
+        run: dotnet workload install maui
       - name: new
-        run: |
-          dotnet new maui -o myApp
+        run: dotnet new maui -o myApp
       - name: build
-        run: |
-          dotnet build myApp
+        run: dotnet build myApp
