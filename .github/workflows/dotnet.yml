@@ -11,10 +11,10 @@ jobs:
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v2
-      - name: Setup .NET Core SDK 6.0.200-preview.22055.15
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.200-preview.22055.15'
+      - name: Install Visual Studio Preview
+        run: |
+          dotnet tool update -g dotnet-vs
+          vs install buildtools -pre +mobile
       - name: versions
         run: dotnet --info
       - name: workloads
