@@ -1,21 +1,13 @@
 name: build
-on: 
+
+on:
+  workflow_dispatch:
   push:
-    branches: [ master ]
-  pull_request:
-    types: [opened, synchronize, reopened]
-
-env:
-  DOTNET_NOLOGO: true
-
-defaults:
-  run:
-    shell: bash
 
 jobs:
   build:
     name: build
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v2
