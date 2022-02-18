@@ -26,6 +26,9 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
         with:
           vs-prerelease: true
+          
+      - name: tests
+        run: dir "C:\Program Files\Microsoft Visual Studio\2022\Preview\Msbuild\Current\Bin\"
 
       - name: build
         run: msbuild myApp
