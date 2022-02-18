@@ -15,6 +15,10 @@ jobs:
         run: |
           dotnet tool update -g dotnet-vs
           vs install Enterprise --quiet -pre +mobile
+
+      - name: tests
+        run: dir "C:\Program Files\Microsoft Visual Studio\2022\Preview\Msbuild\Current\Bin\"
+
       - name: versions
         run: dotnet --info
       - name: workloads
@@ -26,9 +30,6 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
         with:
           vs-prerelease: true
-          
-      - name: tests
-        run: dir "C:\Program Files\Microsoft Visual Studio\2022\Preview\Msbuild\Current\Bin\"
-
+        
       - name: build
         run: msbuild myApp
