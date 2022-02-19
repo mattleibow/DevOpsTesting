@@ -36,4 +36,4 @@ jobs:
           vs-prerelease: true
         
       - name: build
-        run: msbuild myApp
+        run: msbuild /r myApp
