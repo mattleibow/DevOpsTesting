@@ -6,7 +6,7 @@ trigger:
 
 steps:
  - bash:
-    git clone --recursive https://github.com/mono/SkiaSharp.git
+    git clone --recurse-submodules https://github.com/mono/SkiaSharp.git
     cd SkiaSharp
     sudo pwsh ./scripts/install-dotnet.ps1 -Version 6.0.200-rtm.22107.3 -InstallDir '/usr/share/dotnet'
     $env:PATH = '/usr/share/dotnet:' + $env:PATH
