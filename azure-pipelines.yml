@@ -1,15 +1,15 @@
 pool:
-  vmImage: 'macOS-10.15'
+  vmImage: 'ubuntu-18.04'
 
 trigger:
   - master
 
 steps:
-  # - task: UseDotNet@2
-  #   inputs:
-  #     packageType: 'sdk'
-  #     version: 6.0.200
-  #     performMultiLevelLookup: true
-  - pwsh: Invoke-WebRequest -Uri "https://dot.net/v1/dotnet-install.sh" -OutFile dotnet-install.sh
-  - bash: sh dotnet-install.sh --version "6.0.200" --install-dir "/Users/runner/hostedtoolcache/dotnet" --verbose
-  - pwsh: dotnet --info
+ - bash:
+    git clone --recursive https://github.com/mono/SkiaSharp.git
+    cd SkiaSharp
+    sudo pwsh ./scripts/install-dotnet.ps1 -Version 6.0.200-rtm.22107.3 -InstallDir '/usr/share/dotnet'
+    $env:PATH = '/usr/share/dotnet:' + $env:PATH
+    dotnet tool install -g cake.tool
+    dotnet cake --target=externals-download
+    dotnet cake --target=libs --skipExternals="all"
