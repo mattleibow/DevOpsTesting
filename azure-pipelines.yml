@@ -6,6 +6,7 @@ trigger:
 
 steps:
  - bash: |
+    ls -l /usr/lib/cli/gtk-sharp-2.0/*
     sudo apt update
     sudo apt install apt-rdepends
     apt-rdepends mono-complete
