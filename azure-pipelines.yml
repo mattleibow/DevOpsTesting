@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'ubuntu-18.04'
+  vmImage: 'ubuntu-20.04'
 
 trigger:
   - master
@@ -8,6 +8,7 @@ steps:
  - bash: |
     git clone --recurse-submodules https://github.com/mono/SkiaSharp.git
     cd SkiaSharp
+    ./scripts/install-mono.sh stable-focal/snapshots/6.8.0.123
     dotnet tool restore
     dotnet cake --target=externals-download
     dotnet cake --target=libs --skipExternals="all"
