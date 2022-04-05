@@ -9,7 +9,7 @@ steps:
     ls -l /usr/lib/cli/gtk-sharp-2.0/*
     sudo apt update
     sudo apt install apt-rdepends
-    apt-rdepends mono-complete
+    apt-rdepends mono-complete | grep gtk
     git clone --recurse-submodules https://github.com/mono/SkiaSharp.git
     cd SkiaSharp
     dotnet tool restore
