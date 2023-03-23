@@ -43,7 +43,6 @@ Write-Host "Installing Visual Studio..."
 $exitCode = & "$temp\dd_vs_community.exe" --quiet --norestart --wait `
   --includeRecommended `
   --add Microsoft.VisualStudio.Workload.NetCrossPlat `
-  --add Microsoft.VisualStudio.Workload.NetCoreTools `
   --add Microsoft.VisualStudio.Workload.ManagedDesktop `
   --add Microsoft.VisualStudio.Workload.Universal `
   | Out-Null
