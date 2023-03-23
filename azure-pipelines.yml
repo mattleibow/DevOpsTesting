@@ -8,6 +8,7 @@ steps:
   - pwsh: .\install-vs.ps1 -Version '17/pre'
     displayName: Install Visual Studio
   - task: PublishBuildArtifacts@1
+    condition: always()
     inputs:
       artifactName: 'output'
       pathToPublish: 'output'
