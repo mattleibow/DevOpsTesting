@@ -55,5 +55,8 @@ New-Item -ItemType Directory -Force -Path "$vsLogs" | Out-Null
 Get-ChildItem "$temp\dd_*" |
   Where-Object { $_.CreationTime -gt $startTime } |
   Copy-Item -Destination "$vsLogs"
+Get-ChildItem "$env:TEMP\dd_*" |
+  Where-Object { $_.CreationTime -gt $startTime } |
+  Copy-Item -Destination "$vsLogs"
 
 exit $LASTEXITCODE
