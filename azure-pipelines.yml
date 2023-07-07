@@ -10,6 +10,7 @@ steps:
       packageType: 'sdk'
       version: 7.0.x
   - pwsh: |
+      dotnet new tool-manifest
       dotnet tool install AndroidSDK.Tool
   - pwsh: |
       dotnet android sdk list --installed
