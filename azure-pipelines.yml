@@ -1,14 +1,30 @@
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'macos-13'
 
 trigger:
   - master
 
 steps:
-  - pwsh: .\install-vs.ps1 -Version '17/pre'
-    displayName: Install Visual Studio
-  - task: PublishBuildArtifacts@1
-    condition: always()
-    inputs:
-      artifactName: 'output'
-      pathToPublish: 'output'
+  - pwsh: |
+      dotnet tool install AndroidSDK.Tool
+  - pwsh: |
+      dotnet android sdk list --installed
+  - pwsh: |
+      dotnet android sdk install --package "emulator"
+  - pwsh: |
+      dotnet android sdk install --package "system-images;android-34;google_apis;x86_64"
+  - pwsh: |
+      dotnet android sdk list --installed
+  - pwsh: |
+      dotnet android avd create --name TestRunnerEmulator --sdk "system-images;android-34;google_apis;x86_64" --device pixel_5
+  - pwsh: |
+      dotnet android avd start --name TestRunnerEmulator
+  - pwsh: |
+      while ($true) {
+        echo "getting props..."
+        dotnet android device list
+        dotnet android device info --property sys.boot_completed
+        dotnet android device info --property dev.bootcomplete
+        dotnet android device info
+        sleep 15
+      }
