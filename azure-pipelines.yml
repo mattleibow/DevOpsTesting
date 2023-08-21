@@ -5,33 +5,60 @@ trigger:
   - master
   - test/*
 
-steps:
+    jobs:
+      - job: UseDotNet
+        pool:
+          vmImage: windows-latest
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: 'sdk'
+              version: 7.0.x
+          - pwsh: dotnet workload install maui
+          - pwsh: |
+              dotnet workload list
+              dotnet workload --info
+              dotnet --info
+              dotnet workload update --print-rollback
+              dotnet workload search
+              Get-Content C:\hostedtoolcache\windows\dotnet\sdk\7.0.400\.version
+              tree C:\hostedtoolcache\windows\dotnet\sdk-manifests /f
+              tree C:\hostedtoolcache\windows\dotnet\packs /f
+          - pwsh: dotnet new android -o TestAndroidApp
+          - pwsh: dotnet build TestAndroidApp
+          - task: MSBuild@1
+            inputs:
+              solution: ./TestAndroidApp/TestAndroidApp.csproj
+              msbuildArguments: /restore /bl:D:\a\1\s\output\msbuild.binlog
+          - publish: output
+            artifact: use-dotnet
+            condition: always()
 
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: 7.0.x
-
-  - pwsh: dotnet workload install maui
-  - pwsh: |
-      dotnet workload list
-      dotnet workload --info
-      dotnet --info
-      dotnet workload update --print-rollback
-      dotnet workload search
-      Get-Content C:\hostedtoolcache\windows\dotnet\sdk\7.0.400\.version
-      tree C:\hostedtoolcache\windows\dotnet\sdk-manifests /f
-      tree C:\hostedtoolcache\windows\dotnet\packs /f
-
-  - pwsh: dotnet new android -o TestAndroidApp
-
-  - pwsh: dotnet build TestAndroidApp
-
-  - task: MSBuild@1
-    inputs:
-      solution: ./TestAndroidApp/TestAndroidApp.csproj
-      msbuildArguments: /restore /bl:D:\a\1\s\output\msbuild.binlog
-
-  - publish: output
-    artifact: windows
-    condition: always()
+      - job: UseInstallScript
+        displayName: Build
+        pool:
+          vmImage: windows-latest
+        steps:
+          - pwsh: |
+              Invoke-WebRequest 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
+              .\dotnet-install.ps1 -InstallDir C:\hostedtoolcache\windows\dotnet -Channel 7.0
+              Write-Host "##vso[task.prependpath]C:\hostedtoolcache\windows\dotnet"
+          - pwsh: dotnet workload install maui
+          - pwsh: |
+              dotnet workload list
+              dotnet workload --info
+              dotnet --info
+              dotnet workload update --print-rollback
+              dotnet workload search
+              Get-Content C:\hostedtoolcache\windows\dotnet\sdk\7.0.400\.version
+              tree C:\hostedtoolcache\windows\dotnet\sdk-manifests /f
+              tree C:\hostedtoolcache\windows\dotnet\packs /f
+          - pwsh: dotnet new android -o TestAndroidApp
+          - pwsh: dotnet build TestAndroidApp
+          - task: MSBuild@1
+            inputs:
+              solution: ./TestAndroidApp/TestAndroidApp.csproj
+              msbuildArguments: /restore /bl:D:\a\1\s\output\msbuild.binlog
+          - publish: output
+            artifact: install-script
+            condition: always()
