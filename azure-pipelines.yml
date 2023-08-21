@@ -3,6 +3,7 @@ pool:
 
 trigger:
   - master
+  - test/*
 
 steps:
 
