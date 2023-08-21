@@ -58,3 +58,17 @@ jobs:
       - publish: output
         artifact: install-script
         condition: always()
+
+  - job: DoNothing
+    pool:
+      vmImage: windows-latest
+    steps:
+      - pwsh: dotnet new android -o TestAndroidApp
+      - pwsh: dotnet build TestAndroidApp
+      - task: MSBuild@1
+        inputs:
+          solution: ./TestAndroidApp/TestAndroidApp.csproj
+          msbuildArguments: /restore /bl:D:\a\1\s\output\msbuild.binlog
+      - publish: output
+        artifact: do-nothing
+        condition: always()
