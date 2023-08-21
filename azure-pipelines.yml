@@ -32,7 +32,6 @@ jobs:
         condition: always()
 
   - job: UseInstallScript
-    displayName: Build
     pool:
       vmImage: windows-latest
     steps:
