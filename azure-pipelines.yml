@@ -1,35 +1,36 @@
 pool:
-  vmImage: 'macos-13'
+  vmImage: 'windows-latest'
 
 trigger:
   - master
 
 steps:
+
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
       version: 7.0.x
+
+  - pwsh: dotnet workload install maui
   - pwsh: |
-      dotnet new tool-manifest
-      dotnet tool install AndroidSDK.Tool
-  - pwsh: |
-      dotnet android sdk list --installed
-  - pwsh: |
-      dotnet android sdk install --package "emulator"
-  - pwsh: |
-      dotnet android sdk install --package "system-images;android-34;google_apis;x86_64"
-  - pwsh: |
-      dotnet android sdk list --installed
-  - pwsh: |
-      dotnet android avd create --name TestRunnerEmulator --sdk "system-images;android-34;google_apis;x86_64" --device pixel_5
-  - pwsh: |
-      dotnet android avd start --name TestRunnerEmulator
-  - pwsh: |
-      while ($true) {
-        echo "getting props..."
-        dotnet android device list
-        dotnet android device info --property sys.boot_completed
-        dotnet android device info --property dev.bootcomplete
-        dotnet android device info
-        sleep 15
-      }
+      dotnet workload list
+      dotnet workload --info
+      dotnet --info
+      dotnet workload update --print-rollback
+      dotnet workload search
+      Get-Content C:\hostedtoolcache\windows\dotnet\sdk\7.0.400\.version
+      tree C:\hostedtoolcache\windows\dotnet\sdk-manifests /f
+      tree C:\hostedtoolcache\windows\dotnet\packs /f
+
+  - pwsh: dotnet new android -o TestAndroidApp
+
+  - pwsh: dotnet build TestAndroidApp
+
+  - task: MSBuild@1
+    inputs:
+      solution: ./TestAndroidApp/TestAndroidApp.csproj
+      msbuildArguments: /restore /bl:D:\a\1\s\output\msbuild.binlog
+
+  - publish: output
+    artifact: windows
+    condition: always()
