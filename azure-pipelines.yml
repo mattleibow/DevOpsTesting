@@ -2,8 +2,7 @@ pool:
   vmImage: 'macos-13'
 
 trigger:
-  - master
-  - test/*
+  - '*'
 
 steps:
 
