@@ -2,8 +2,7 @@ pool:
   vmImage: 'windows-latest'
 
 trigger:
-  - master
-  - test/*
+  - '*'
 
 steps:
 
