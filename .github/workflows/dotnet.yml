@@ -5,35 +5,15 @@ on:
   push:
 
 jobs:
-  build:
-    name: build
+  win:
+    name: buildwin
     runs-on: windows-latest
     steps:
-      - name: 🤘 checkout
-        uses: actions/checkout@v2
-
-      - name: Install Visual Studio Preview
-        run: |
-          Invoke-WebRequest -UseBasicParsing -Uri "https://aka.ms/vs/install/latest/vs_setup.exe" -OutFile "$env:TEMP\dd_vs_setup.exe"
-          & "$env:TEMP\dd_vs_setup.exe" --update --quiet --wait | Out-Null
-          
-          Invoke-WebRequest -UseBasicParsing -Uri "https://aka.ms/vs/17/pre/vs_enterprise.exe" -OutFile "$env:TEMP\dd_vs_enterprise.exe"
-          & "$env:TEMP\dd_vs_enterprise.exe" --quiet --norestart --wait --includeRecommended --add Microsoft.VisualStudio.Workload.NetCrossPlat | Out-Null
-
-      - name: tests
-        run: dir "C:\Program Files\Microsoft Visual Studio\2022"
-
-      - name: versions
-        run: dotnet --info
       - name: workloads
-        run: dotnet workload install maui
-      - name: new
-        run: dotnet new maui -o myApp
-
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.1
-        with:
-          vs-prerelease: true
-        
-      - name: build
-        run: msbuild /r myApp
+        run: dotnet workload install maui -v diag
+  mac:
+    name: buildmac
+    runs-on: macos-latest
+    steps:
+      - name: workloads
+        run: dotnet workload install maui -v diag
