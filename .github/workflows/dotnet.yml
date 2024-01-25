@@ -9,11 +9,19 @@ jobs:
     name: buildwin
     runs-on: windows-latest
     steps:
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.0
       - name: workloads
         run: dotnet workload install maui -v diag
   mac:
     name: buildmac
     runs-on: macos-latest
     steps:
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: 8.0
       - name: workloads
         run: dotnet workload install maui -v diag
