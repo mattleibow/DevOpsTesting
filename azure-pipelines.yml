@@ -6,10 +6,6 @@ trigger:
 
 steps:
 
-  - task: InstallAppleCertificate@2
-    inputs:
-      certSecureFile: 'Testing.mobileprovision'
-
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
