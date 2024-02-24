@@ -1,40 +1,16 @@
-pool:
-  vmImage: 'windows-latest'
+stages:
+- stage: A
+  jobs:
+  - job: A1
+    steps:
+     - bash: echo "##vso[task.setvariable variable=myStageOutputVar;isOutput=true]this is a stage output var"
+       name: printvar
 
-trigger:
-  - '*'
-
-steps:
-
-  - task: InstallAppleCertificate@2
-    inputs:
-      certSecureFile: 'Testing.mobileprovision'
-
-  - task: UseDotNet@2
-    inputs:
-      packageType: 'sdk'
-      version: 7.0.x
-
-  - pwsh: dotnet workload install maui
-  - pwsh: |
-      dotnet workload list
-      dotnet workload --info
-      dotnet --info
-      dotnet workload update --print-rollback
-      dotnet workload search
-      Get-Content C:\hostedtoolcache\windows\dotnet\sdk\7.0.400\.version
-      tree C:\hostedtoolcache\windows\dotnet\sdk-manifests /f
-      tree C:\hostedtoolcache\windows\dotnet\packs /f
-
-  - pwsh: dotnet new android -o TestAndroidApp
-
-  - pwsh: dotnet build TestAndroidApp
-
-  - task: MSBuild@1
-    inputs:
-      solution: ./TestAndroidApp/TestAndroidApp.csproj
-      msbuildArguments: /restore /bl:D:\a\1\s\output\msbuild.binlog
-
-  - publish: output
-    artifact: windows
-    condition: always()
+- stage: B
+  dependsOn: A
+  variables:
+    myVarfromStageA: $[ stageDependencies.A.A1.outputs['printvar.myStageOutputVar'] ]
+  jobs:
+  - job: B1
+    steps:
+    - script: echo $(myVarfromStageA)
