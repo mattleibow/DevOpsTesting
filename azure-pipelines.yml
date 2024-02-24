@@ -11,9 +11,8 @@ stages:
 
   - stage: B
     dependsOn: A
-    variables:
-      myVarfromStageA: $[ stageDependencies.A.A1.outputs['printvar.myStageOutputVar'] ]
     jobs:
       - job: B1
         steps:
-          - script: echo $(myVarfromStageA)
+        - ${{ each value in stageDependencies.A }}:
+          - script: echo ${{ value }}
