@@ -17,4 +17,4 @@ stages:
       - job: B1
         steps:
         #- ${{ each value in stageDependencies.A }}:
-          - script: echo ${{ myVarfromStageA }}
+          - script: echo $(myVarfromStageA)
