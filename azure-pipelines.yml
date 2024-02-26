@@ -13,17 +13,20 @@ stages:
         steps:
           - checkout: none
           - bash: echo "##vso[task.setvariable variable=name;isOutput=true]name here"
+      - job: A3
+        steps:
+          - checkout: none
 
   - stage: B
     dependsOn: A
+    variables:
+      jobsInStageA: $[ convertToJson(stageDependencies.A) ]
     jobs:
       - job: B1
         steps:
           - checkout: none
           - pwsh: |
               $test=@'
-              $(jobsInA)
+              $(jobsInStageA)
               '@
               echo $test
-            env:
-              jobsInA: $[ convertToJson(stageDependencies.A) ]
