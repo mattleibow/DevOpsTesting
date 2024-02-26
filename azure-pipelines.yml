@@ -18,13 +18,5 @@ stages:
       - job: B1
         steps:
           - checkout: none
-        #- ${{ each value in stageDependencies.A }}:
-          - script: echo $(stageDependencies.A)
-          - script: echo $[ stageDependencies.A ]
-          - script: |
-              multiline_string=$(cat << EOM
-              $(myVarfromStageA)
-              EOM
-              )
-
-              echo "$multiline_string"
+          - ${{ each value in myVarfromStageA }}:
+            - script: echo hello
