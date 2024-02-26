@@ -21,4 +21,10 @@ stages:
         #- ${{ each value in stageDependencies.A }}:
           - script: echo $(stageDependencies.A)
           - script: echo $[ stageDependencies.A ]
-          - script: echo $(myVarfromStageA)
+          - script: |
+              multiline_string=$(cat << EOM
+              $(myVarfromStageA)
+              EOM
+              )
+
+              echo "$multiline_string"
