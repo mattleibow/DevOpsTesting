@@ -18,4 +18,8 @@ stages:
       - job: B1
         steps:
           - checkout: none
-          - script: echo '$(myVarfromStageA)'
+          - script: |
+              $test=@'
+              $(myVarfromStageA)
+              '@
+              echo $test
