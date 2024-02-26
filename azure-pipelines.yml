@@ -45,7 +45,8 @@ stages:
               $json = ConvertFrom-Json $test
               $objects = $json | Get-Member -MemberType NoteProperty
               $names = $objects | ForEach-Object { $json."$($_.Name)".name }
-              $names | Write-Host "Will download artifact'$_'..."
+              Write-Host "Found $($names.Length) items:"
+              $names | ForEach-Object { Write-Host " - $_" }
               foreach ($name in $names) {
                 Write-Host "Downloading '$name'..."
                 az pipelines runs artifact download `
