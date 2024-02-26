@@ -51,8 +51,8 @@ stages:
                 Write-Host "Downloading '$name'..."
                 az pipelines runs artifact download `
                   --artifact-name "$names" `
-                  --path $(System.ArtifactStagingDirectory) `
-                  --run-id $(Build.BuildId)
+                  --path "$env:System_ArtifactStagingDirectory" `
+                  --run-id "$env:Build_BuildId"
               }
           - task: PublishPipelineArtifact@1
             inputs:
