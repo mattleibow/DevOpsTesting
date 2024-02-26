@@ -7,15 +7,27 @@ stages:
       - job: A1
         steps:
           - checkout: none
-          - bash: echo "##vso[task.setvariable variable=name;isOutput=true]name here"
-            name: printvar
+          - script: echo "hi" > $(Build.ArtifactStagingDirectory)\file1.txt
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifact: artifact1
       - job: A2
         steps:
           - checkout: none
-          - bash: echo "##vso[task.setvariable variable=name;isOutput=true]name here"
+          - script: echo "hi" > $(Build.ArtifactStagingDirectory)\file2.txt
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifact: artifact2
       - job: A3
         steps:
           - checkout: none
+          - script: echo "hi" > $(Build.ArtifactStagingDirectory)\file3.txt
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifact: artifact3
 
   - stage: B
     dependsOn: A
@@ -29,4 +41,19 @@ stages:
               $test=@'
               $(jobsInStageA)
               '@
-              echo $test
+
+              $json = ConvertFrom-Json $test
+              $objects = $json | Get-Member -MemberType NoteProperty
+              $names = $objects | ForEach-Object { $json."$($_.Name)".name }
+              $names | Write-Host "Will download artifact'$_'..."
+              foreach ($name in $names) {
+                Write-Host "Downloading '$name'..."
+                az pipelines runs artifact download `
+                  --artifact-name "$names" `
+                  --path $(System.ArtifactStagingDirectory) `
+                  --run-id $(Build.BuildId)
+              }
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              artifact: merged
