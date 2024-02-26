@@ -7,9 +7,12 @@ stages:
       - job: A1
         steps:
           - checkout: none
+          - bash: echo "##vso[task.setvariable variable=name;isOutput=true]name here"
+            name: printvar
       - job: A2
         steps:
           - checkout: none
+          - bash: echo "##vso[task.setvariable variable=name;isOutput=true]name here"
 
   - stage: B
     dependsOn: A
