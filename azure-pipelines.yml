@@ -18,5 +18,4 @@ stages:
       - job: B1
         steps:
           - checkout: none
-          - ${{ each value in myVarfromStageA }}:
-            - script: echo hello
+          - script: echo '$(myVarfromStageA)'
