@@ -51,9 +51,10 @@ stages:
 
               $dir = "$(Build.ArtifactStagingDirectory)"
               $id = "$(Build.BuildId)"
+              $org = "$(System.CollectionUri)"
               foreach ($name in $names) {
                 Write-Host "Downloading '$name'..."
-                az pipelines runs artifact download --artifact-name "$name" --path "$dir" --run-id "$id"
+                az pipelines runs artifact download --artifact-name "$name" --path "$dir" --run-id "$id" --organization "$org"
               }
               Write-Host "Downloads complete."
           - task: PublishPipelineArtifact@1
