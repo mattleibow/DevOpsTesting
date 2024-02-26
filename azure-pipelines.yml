@@ -53,6 +53,7 @@ stages:
               $id = "$env:Build_BuildId"
               foreach ($name in $names) {
                 Write-Host "Downloading '$name'..."
+                echo az pipelines runs artifact download --artifact-name "$name" --path "$dir" --run-id "$id"
                 az pipelines runs artifact download --artifact-name "$name" --path "$dir" --run-id "$id"
               }
               Write-Host "Downloads complete."
