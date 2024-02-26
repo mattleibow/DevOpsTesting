@@ -11,7 +11,7 @@ stages:
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifact: artifact1
+              artifact: A1
       - job: A2
         steps:
           - checkout: none
@@ -19,7 +19,7 @@ stages:
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifact: artifact2
+              artifact: A2
       - job: A3
         steps:
           - checkout: none
@@ -27,7 +27,7 @@ stages:
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifact: artifact3
+              artifact: A3
 
   - stage: B
     dependsOn: A
@@ -42,6 +42,8 @@ stages:
               $test=@'
               $(jobsInStageA)
               '@
+
+              echo $test
 
               $json = ConvertFrom-Json $test
               $objects = $json | Get-Member -MemberType NoteProperty
