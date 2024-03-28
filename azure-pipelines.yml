@@ -1,67 +1,22 @@
 pool:
   vmImage: 'windows-latest'
 
-stages:
-  - stage: A
-    jobs:
-      - job: A1
-        steps:
-          - checkout: none
-          - script: echo "hi" > $(Build.ArtifactStagingDirectory)\file1.txt
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifact: A1
-      - job: A2
-        steps:
-          - checkout: none
-          - script: echo "hi" > $(Build.ArtifactStagingDirectory)\file2.txt
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifact: A2
-      - job: A3
-        steps:
-          - checkout: none
-          - script: echo "hi" > $(Build.ArtifactStagingDirectory)\file3.txt
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifact: A3
-
-  - stage: B
-    dependsOn: A
-    variables:
-      jobsInStageA: $[ convertToJson(stageDependencies.A) ]
-    jobs:
-      - job: B1
-        steps:
-          - checkout: none
-          - pwsh: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
-          - pwsh: |
-              $test=@'
-              $(jobsInStageA)
-              '@
-
-              echo $test
-
-              $json = ConvertFrom-Json $test
-              $objects = $json | Get-Member -MemberType NoteProperty
-              $names = $objects | ForEach-Object { $json."$($_.Name)".name }
-
-              Write-Host "Found $($names.Length) items:"
-              $names | ForEach-Object { Write-Host " - $_" }
-
-              $dir = "$(Build.ArtifactStagingDirectory)"
-              $id = "$(Build.BuildId)"
-              foreach ($name in $names) {
-                Write-Host "Downloading '$name'..."
-                az pipelines runs artifact download --artifact-name "$name" --path "$dir" --run-id "$id"
-              }
-              Write-Host "Downloads complete."
-            env:
-              AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(Build.ArtifactStagingDirectory)'
-              artifact: merged
+jobs:
+  - job: win
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+      - checkout: none
+      - pwsh: echo "$env:JAVA_HOME_17_X64"
+  - job: mac
+    pool:
+      vmImage: 'macos-13'
+    steps:
+      - checkout: none
+      - pwsh: echo "$env:JAVA_HOME_17_X64"
+  - job: win
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - checkout: none
+      - pwsh: echo "$env:JAVA_HOME_17_X64"
