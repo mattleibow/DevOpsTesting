@@ -8,15 +8,18 @@ jobs:
     steps:
       - checkout: none
       - pwsh: echo "$env:JAVA_HOME_17_X64"
+      - pwsh: dir "$env:JAVA_HOME_17_X64"
   - job: mac
     pool:
       vmImage: 'macos-13'
     steps:
       - checkout: none
       - pwsh: echo "$env:JAVA_HOME_17_X64"
+      - pwsh: dir "$env:JAVA_HOME_17_X64"
   - job: linux
     pool:
       vmImage: 'ubuntu-latest'
     steps:
       - checkout: none
       - pwsh: echo "$env:JAVA_HOME_17_X64"
+      - pwsh: dir "$env:JAVA_HOME_17_X64"
