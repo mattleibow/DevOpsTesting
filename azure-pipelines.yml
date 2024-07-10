@@ -38,7 +38,7 @@ stages:
           - pwsh: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
           - pwsh: |
               $test=@'
-              $[ convertToJson(stageDependencies.A) ]
+              $(JOBS_NESS)
               '@
 
               echo $test
@@ -58,6 +58,7 @@ stages:
               }
               Write-Host "Downloads complete."
             env:
+              JOBS_NESS: $[ convertToJson(stageDependencies.A) ]
               AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
           - task: PublishPipelineArtifact@1
             inputs:
