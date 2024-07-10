@@ -31,6 +31,8 @@ stages:
 
   - stage: B
     dependsOn: A
+    variables:
+      jobsInStageA: $[ convertToJson(stageDependencies.A) ]
     jobs:
       - job: B1
         steps:
@@ -38,7 +40,7 @@ stages:
           - pwsh: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
           - pwsh: |
               $test=@'
-              $(JOBS_NESS)
+              $(jobsInStageA)
               '@
 
               echo $test
@@ -58,7 +60,6 @@ stages:
               }
               Write-Host "Downloads complete."
             env:
-              JOBS_NESS: $[ convertToJson(stageDependencies.A) ]
               AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
           - task: PublishPipelineArtifact@1
             inputs:
