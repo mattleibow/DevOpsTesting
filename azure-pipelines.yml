@@ -31,8 +31,6 @@ stages:
 
   - stage: B
     dependsOn: A
-    variables:
-      jobsInStageA: $[ convertToJson(stageDependencies.A) ]
     jobs:
       - job: B1
         steps:
@@ -40,7 +38,7 @@ stages:
           - pwsh: az devops configure --defaults organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject) --use-git-aliases true
           - pwsh: |
               $test=@'
-              $(jobsInStageA)
+              $[ convertToJson(stageDependencies.A) ]
               '@
 
               echo $test
