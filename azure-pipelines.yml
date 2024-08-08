@@ -17,7 +17,7 @@ pool:
 steps:
 - pwsh: Get-PSDrive -PSProvider FileSystem
 - pwsh: |
-    iwr 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
+    iwr 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1' -Architecture x64
     ./dotnet-install.ps1 -InstallDir "$PWD/.dotnet" -Version '$(dotnet_version)' -Verbose
 - pwsh: |
     curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --install-dir "$PWD/.dotnet" --version '$(dotnet_version)' --verbose
