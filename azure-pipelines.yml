@@ -17,10 +17,10 @@ pool:
 steps:
 - pwsh: Get-PSDrive -PSProvider FileSystem
 - pwsh: |
-    iwr 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1' -Architecture x64
+    iwr 'https://raw.githubusercontent.com/dotnet/install-scripts/main/src/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
     ./dotnet-install.ps1 -InstallDir "$PWD/.dotnet" -Version '$(dotnet_version)' -Verbose
 - pwsh: |
-    curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --install-dir "$PWD/.dotnet" --version '$(dotnet_version)' --verbose
+    curl -sSL https://raw.githubusercontent.com/dotnet/install-scripts/main/src/dotnet-install.sh | bash /dev/stdin --install-dir "$PWD/.dotnet" --version '$(dotnet_version)' --verbose
 - pwsh: echo "##vso[task.prependpath]$PWD/.dotnet"
 - pwsh: dotnet --info
 - pwsh: dotnet workload install android ios macos tvos maccatalyst --skip-sign-check --from-rollback-file ./rollback.json --verbosity diag  --configfile ./NuGet.config
