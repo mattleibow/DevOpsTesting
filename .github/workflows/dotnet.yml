@@ -19,13 +19,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: get available space on agent
-        if: ${{ matrix.os != 'windows-latest' }}
         run: |
-          Get-PSDrive -PSProvider FileSystem
-      - name: get available space on agent
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: |
-          Get-Volume
+          echo $pwd
       - name: install .net
         run: |
           iwr 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
@@ -38,11 +33,3 @@ jobs:
       - name: install .net workloads
         run: |
           dotnet workload install android ios macos tvos maccatalyst --skip-sign-check --from-rollback-file rollback.json --verbosity diag  --configfile NuGet.config
-      - name: get available space on agent
-        if: ${{ matrix.os != 'windows-latest' }}
-        run: |
-          Get-PSDrive -PSProvider FileSystem
-      - name: get available space on agent
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: |
-          Get-Volume
