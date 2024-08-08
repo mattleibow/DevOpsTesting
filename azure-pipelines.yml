@@ -1,3 +1,7 @@
+variables:
+  - name: dotnet_version
+    value: '9.0.100-preview.7.24406.8'
+
 strategy:
   matrix:
     linux:
@@ -12,10 +16,12 @@ pool:
 
 steps:
 - pwsh: Get-PSDrive -PSProvider FileSystem
-- task: UseDotNet@2
-  inputs:
-    version: '9.0.100-preview.7.24406.8'
-    includePreviewVersions: true
+- pwsh: |
+    iwr 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
+    ./dotnet-install.ps1 -InstallDir "$PWD/.dotnet" -Version '$(dotnet_version)' -Verbose
+- pwsh: |
+    curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --install-dir "$PWD/.dotnet" --version '$(dotnet_version)' --verbose
+- pwsh: echo "##vso[task.prependpath]$PWD/.dotnet"
 - pwsh: dotnet --info
 - pwsh: dotnet workload install android ios macos tvos maccatalyst --skip-sign-check --from-rollback-file ./rollback.json --verbosity diag  --configfile ./NuGet.config
 - pwsh: Get-PSDrive -PSProvider FileSystem
