@@ -15,6 +15,7 @@ pool:
   vmImage: $(imageName)
 
 steps:
+- pwsh: echo "$(Agent.ToolsDirectory)"
 - pwsh: Get-PSDrive -PSProvider FileSystem
 - pwsh: |
     iwr 'https://raw.githubusercontent.com/dotnet/install-scripts/main/src/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
