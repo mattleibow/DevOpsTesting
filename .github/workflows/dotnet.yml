@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: get available space on agent
         run: |
-          echo $pwd
+          echo "$PWD"
       - name: install .net
         run: |
           iwr 'https://dot.net/v1/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
