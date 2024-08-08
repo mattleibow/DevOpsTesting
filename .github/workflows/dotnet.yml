@@ -24,7 +24,7 @@ jobs:
       - name: install .net
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.0-preview.7.24405.7
+          dotnet-version: '9.0.0-preview.7.24405.7'
       - name: check .net
         run: |
           dotnet --info
