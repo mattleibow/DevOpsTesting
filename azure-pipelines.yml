@@ -28,5 +28,5 @@ steps:
   condition: ne(variables['Agent.OS'], 'Windows_NT')
 - pwsh: echo "##vso[task.prependpath]$PWD/.dotnet"
 - pwsh: dotnet --info
-- pwsh: dotnet workload install android ios macos tvos maccatalyst --skip-sign-check --from-rollback-file ./rollback.json --verbosity diag  --configfile ./NuGet.config
+- pwsh: dotnet workload install android ios maccatalyst --skip-sign-check --from-rollback-file ./rollback.json --verbosity diag  --configfile ./NuGet.config
 - pwsh: Get-PSDrive -PSProvider FileSystem
