@@ -4,8 +4,6 @@ variables:
 
 strategy:
   matrix:
-    linux:
-      imageName: 'ubuntu-latest'
     mac:
       imageName: 'macos-latest'
     windows:
@@ -19,6 +17,8 @@ steps:
     echo "Agent.ToolsDirectory=$(Agent.ToolsDirectory)"
     echo "Agent.TempDirectory=$(Agent.TempDirectory)"
 - pwsh: Get-PSDrive -PSProvider FileSystem
+- pwsh: df -h
+  condition: ne(variables['Agent.OS'], 'Windows_NT')
 - pwsh: |
     iwr 'https://raw.githubusercontent.com/dotnet/install-scripts/main/src/dotnet-install.ps1' -OutFile 'dotnet-install.ps1'
     ./dotnet-install.ps1 -InstallDir "$PWD/.dotnet" -Version '$(dotnet_version)' -Verbose
@@ -30,3 +30,5 @@ steps:
 - pwsh: dotnet --info
 - pwsh: dotnet workload install maui --skip-sign-check --from-rollback-file ./rollback.json --verbosity diag  --configfile ./NuGet.config
 - pwsh: Get-PSDrive -PSProvider FileSystem
+- pwsh: df -h
+  condition: ne(variables['Agent.OS'], 'Windows_NT')
