@@ -1,5 +1,7 @@
 parameters:
-  carrots: 'yes!'
+  - name: carrots
+    type: string
+    default: 'yes!'
 
 pool:
   vmImage: 'windows-latest'
