@@ -5,6 +5,7 @@ pool:
 steps:
   - checkout: none
   - pwsh: dotnet new console
+  - pwsh: echo "fail" > Code.cs
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
