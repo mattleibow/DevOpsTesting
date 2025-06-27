@@ -1,6 +1,6 @@
 
 jobs:
-  - job: Testing123
+  - job: Testing1234
     pool:
       vmImage: windows-latest
     steps:
@@ -12,7 +12,7 @@ jobs:
           command: 'build'
           projects: HelloConsole/HelloConsole.csproj
 
-  - job: TestingABC
+  - job: TestingABCD
     pool:
       vmImage: ubuntu-latest
     steps:
