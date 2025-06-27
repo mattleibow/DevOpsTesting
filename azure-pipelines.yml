@@ -4,8 +4,11 @@ pool:
 
 steps:
   - checkout: none
-  - pwsh: dotnet new console
-  - pwsh: echo "fail" > Code.cs
+  - pwsh: dotnet new console -o HelloConsole
+  - pwsh: echo "fail" > HelloConsole/Code.cs
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
+      projects: HelloConsole/HelloConsole.csproj
+      
+      
