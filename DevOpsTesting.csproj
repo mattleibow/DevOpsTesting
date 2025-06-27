@@ -2,7 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Exclude TestApp directory from compilation -->
+    <Compile Remove="TestApp/**" />
+    <EmbeddedResource Remove="TestApp/**" />
+    <None Remove="TestApp/**" />
+  </ItemGroup>
 
 </Project>

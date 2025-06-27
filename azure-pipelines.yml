@@ -1,11 +1,25 @@
 pool:
   vmImage: 'ubuntu-latest'
 
-
 steps:
-  - checkout: none
-  - pwsh: dotnet new console
-  - pwsh: echo "fail" > Code.cs
+  - checkout: self
+  
   - task: DotNetCoreCLI@2
+    displayName: 'Restore dependencies'
+    inputs:
+      command: 'restore'
+      projects: 'DevOpsTesting.csproj'
+  
+  - task: DotNetCoreCLI@2
+    displayName: 'Build project'
     inputs:
       command: 'build'
+      projects: 'DevOpsTesting.csproj'
+      arguments: '--configuration Release --no-restore'
+  
+  - task: DotNetCoreCLI@2
+    displayName: 'Run application'
+    inputs:
+      command: 'run'
+      projects: 'DevOpsTesting.csproj'
+      arguments: '--configuration Release --no-build'
