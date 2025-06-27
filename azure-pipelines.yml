@@ -4,7 +4,7 @@ pool:
 
 steps:
   - checkout: none
-  - pwsh: dotnet new console HelloConsole
+  - pwsh: dotnet new console
   - task: DotNetCoreCLI@2
     inputs:
       command: 'build'
