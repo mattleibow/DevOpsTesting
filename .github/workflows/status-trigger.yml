@@ -4,9 +4,6 @@ on:
 jobs:
   if_error_or_failure:
     runs-on: ubuntu-latest
-    if: >-
-      github.event.state == 'error' ||
-      github.event.state == 'failure'
     steps:
       - env:
           DESCRIPTION: ${{ github.event.description }}
