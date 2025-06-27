@@ -1,19 +1,10 @@
-parameters:
-  - name: carrots
-    type: string
-    default: 'yes!'
-
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
-variables:
-  THERE_ARE_CARROTS: ${{ parameters.carrots }}
 
-stages:
-  - stage: A
-    jobs:
-      - job: A1
-        steps:
-          - checkout: none
-          - pwsh: echo "$env:THERE_ARE_CARROTS"
-            displayName: Good? $(THERE_ARE_CARROTS)?
+steps:
+  - checkout: none
+  - pwsh: dotnet new console HelloConsole
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
