@@ -1,14 +1,25 @@
-pool:
-  vmImage: 'ubuntu-latest'
 
+jobs:
+  - job: Testing123
+    pool:
+      vmImage: windows-latest
+    steps:
+      - checkout: none
+      - pwsh: dotnet new console -o HelloConsole
+      - pwsh: echo "fail" > HelloConsole/Code.cs
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          projects: HelloConsole/HelloConsole.csproj
 
-steps:
-  - checkout: none
-  - pwsh: dotnet new console -o HelloConsole
-  - pwsh: echo "fail" > HelloConsole/Code.cs
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'build'
-      projects: HelloConsole/HelloConsole.csproj
-      
-      
+  - job: TestingABC
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - checkout: none
+      - pwsh: dotnet new console -o HelloConsole
+      - pwsh: echo "fail" > HelloConsole/Code.cs
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          projects: HelloConsole/HelloConsole.csproj
