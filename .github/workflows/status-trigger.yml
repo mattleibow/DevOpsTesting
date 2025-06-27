@@ -1,5 +1,7 @@
 on:
-  status
+  status:
+  check_run:
+  check_suite:
 
 jobs:
   if_error_or_failure:
