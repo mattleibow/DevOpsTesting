@@ -1,3 +1,11 @@
 artifacts/
 xcuserdata/
 TestApp/
+
+# Build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.cache
+.vs/

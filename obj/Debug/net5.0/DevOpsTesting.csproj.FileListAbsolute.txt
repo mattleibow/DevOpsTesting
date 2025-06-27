@@ -1,5 +1,0 @@
-/home/runner/work/DevOpsTesting/DevOpsTesting/obj/Debug/net5.0/DevOpsTesting.GeneratedMSBuildEditorConfig.editorconfig
-/home/runner/work/DevOpsTesting/DevOpsTesting/obj/Debug/net5.0/DevOpsTesting.AssemblyInfoInputs.cache
-/home/runner/work/DevOpsTesting/DevOpsTesting/obj/Debug/net5.0/DevOpsTesting.AssemblyInfo.cs
-/home/runner/work/DevOpsTesting/DevOpsTesting/obj/Debug/net5.0/DevOpsTesting.csproj.CoreCompileInputs.cache
-/home/runner/work/DevOpsTesting/DevOpsTesting/obj/Debug/net5.0/DevOpsTesting.sourcelink.json
